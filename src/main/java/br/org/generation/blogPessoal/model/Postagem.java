@@ -14,29 +14,32 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name = "postagem")
+@Table(name = "tb_postagens") 
 public class Postagem {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY) 
+	private long id; 
 
-	@NotNull(message = "O tìtulo não pode ser vazio!")
-	@Size(min = 5, max = 100)
-	private String titulo;
+	@NotNull(message = "O atributo título é Obrigatório!")
+	@Size(min = 5, max = 100, message = "O atributo título deve conter no mínimo 05 e no máximo 100 caracteres")
+	private String titulo; 
 
-	@NotNull(message = "O texto não pode ser vazio!")
-	@Size(min = 10, max = 500)
-	private String texto;
+	@NotNull(message = "O atributo texto é Obrigatório!")
+	@Size(min = 10, max = 1000, message = "O atributo texto deve conter no mínimo 10 e no máximo 500 caracteres")
+	private String texto; 
 
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date data = new java.sql.Date(System.currentTimeMillis());
+	private Date data = new java.sql.Date(System.currentTimeMillis()); 
 
-	@ManyToOne //criando o relacionamento entre os Bancos de Dados
-	@JsonIgnoreProperties("postagem") //
-	private Tema tema; // --> atributo Tema, chamado tema, onde, em seguida, será gerado o GET/SET e a Classe Tema tb
-
-	// gerando GETTERS e SETTERS
+	@ManyToOne
+	@JsonIgnoreProperties("postagem")
+	private Tema tema;
+		
+	@ManyToOne
+	@JsonIgnoreProperties ("postagem")
+	private Usuario usuario;
+	
 	public long getId() {
 		return id;
 	}
@@ -77,4 +80,13 @@ public class Postagem {
 		this.tema = tema;
 	}
 
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	
 }

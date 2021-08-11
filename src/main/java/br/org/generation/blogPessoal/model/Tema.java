@@ -15,44 +15,44 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 //Após finalizada a Model, vamos transforma-la em uma entidade do JPA hibernate
 @Entity
-@Table(name = "tb_tema")
-public class Tema {
+@Table(name = "tb_temas")
+public class Tema{
+	    
+	    @Id	
+		@GeneratedValue(strategy = GenerationType.IDENTITY)
+		private long id;
+		
+		@NotNull(message = "O atributo Descrição deve ser obrigatório")
+		private String descricao;
+		
+		@OneToMany(mappedBy = "tema", cascade = CascadeType.ALL)
+		@JsonIgnoreProperties("tema")
+		private List<Postagem> postagem;
+		
+		
+		public long getId() {
+			return id;
+		}
 
-	@Id //define como PK
-	@GeneratedValue(strategy = GenerationType.IDENTITY) //Define valores automáticos
-	private long id; // atributo
+		public void setId(long id) {
+			this.id = id;
+		}
 
-	@NotNull //não permite valores nulos
-	private String descricao;// atributo
-	
-	//mapenando o atributo tema na tabela de postagem, onde todas as postagens que pertecem ao devido tema, serão alteradas (cascade)
-	@OneToMany(mappedBy = "tema", cascade = CascadeType.ALL) 
-	@JsonIgnoreProperties("tema")
-	private List<Postagem> postagem; // atibuto Lista do tipo Postagem, chamada postagem
+		public String getDescricao() {
+			return descricao;
+		}
 
-	// gerando GET/SET
-	public long getId() {
-		return id;
-	}
+		public void setDescricao(String descricao) {
+			this.descricao = descricao;
+		}
 
-	public void setId(long id) {
-		this.id = id;
-	}
+		public List<Postagem> getPostagem() {
+			return postagem;
+		}
 
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-
-	public List<Postagem> getPostagem() {
-		return postagem;
-	}
-
-	public void setPostagem(List<Postagem> postagem) {
-		this.postagem = postagem;
-	}
-
+		public void setPostagem(List<Postagem> postagem) {
+			this.postagem = postagem;
+		}
+		
+		
 }
